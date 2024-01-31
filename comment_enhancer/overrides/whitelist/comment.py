@@ -1,3 +1,4 @@
+from distutils.cygwinccompiler import get_versions
 from typing import TYPE_CHECKING
 
 import frappe
@@ -48,3 +49,26 @@ def add_comment_override(
         )
 
     return comment
+
+
+@frappe.whitelist()
+def update_comment_override(name, content):
+    """allow only owner to update comment"""
+    doc = frappe.get_doc("Comment", name)
+
+    if frappe.session.user not in ["Administrator", doc.owner]:
+        frappe.throw(
+            frappe._("Comment can only be edited by the owner"), frappe.PermissionError
+        )
+
+    if doc.reference_doctype and doc.reference_name:
+        reference_doc = frappe.get_doc(doc.reference_doctype, doc.reference_name)
+        reference_doc.check_permission()
+
+        doc.content = extract_images_from_html(reference_doc, content, is_private=True)
+    else:
+        doc.content = content
+
+    doc.set("custom_mentions", get_mention_user(doc.content))
+
+    doc.save(ignore_permissions=True)

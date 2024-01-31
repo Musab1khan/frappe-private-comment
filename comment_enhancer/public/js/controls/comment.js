@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-use-before-define
+// eslint-disable-next-line
 frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
     make_wrapper() {
         this.comment_wrapper = !this.no_wrapper

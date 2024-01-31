@@ -60,6 +60,7 @@ ignore =
     W391,
     W503,
     W504,
+    F401,
 
 per-file-ignores =
     # syntax: [comma-separated path/to/file: comma-separated ERROR CODES]

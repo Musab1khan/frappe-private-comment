@@ -1,3 +1,4 @@
+import frappe
 from frappe.desk.notifications import extract_mentions
 
 
@@ -12,3 +13,62 @@ def get_mention_user(content):
         mention_users.append({"user": user})
 
     return mention_users
+
+
+def add_comments_in_timeline(doc, docinfo):
+    # divide comments into separate lists
+    docinfo.comments = []
+    docinfo.shared = []
+    docinfo.assignment_logs = []
+    docinfo.attachment_logs = []
+    docinfo.info_logs = []
+    docinfo.like_logs = []
+    docinfo.workflow_logs = []
+
+    comments = frappe.get_all(
+        "Comment",
+        fields=[
+            "name",
+            "creation",
+            "content",
+            "owner",
+            "comment_type",
+            "custom_visible_to_mentioned_users",
+            "custom_mentions.user",
+        ],
+        filters={"reference_doctype": doc.doctype, "reference_name": doc.name},
+    )
+
+    filtered_comments = []
+
+    if frappe.session.user != "Administrator":
+        for comment in comments:
+            if not comment.custom_visible_to_mentioned_users:
+                filtered_comments.append(comment)
+            else:
+                if comment.owner == frappe.session.user or (
+                    comment.user is not None and frappe.session.user == comment.user
+                ):
+                    filtered_comments.append(comment)
+    else:
+        filtered_comments = comments
+
+    for c in filtered_comments:
+        match c.comment_type:
+            case "Comment":
+                c.content = frappe.utils.markdown(c.content)
+                docinfo.comments.append(c)
+            case "Shared" | "Unshared":
+                docinfo.shared.append(c)
+            case "Assignment Completed" | "Assigned":
+                docinfo.assignment_logs.append(c)
+            case "Attachment" | "Attachment Removed":
+                docinfo.attachment_logs.append(c)
+            case "Info" | "Edit" | "Label":
+                docinfo.info_logs.append(c)
+            case "Like":
+                docinfo.like_logs.append(c)
+            case "Workflow":
+                docinfo.workflow_logs.append(c)
+
+    return comments

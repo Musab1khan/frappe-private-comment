@@ -160,7 +160,8 @@ app_include_js = "/assets/comment_enhancer/js/comment_enhancer.js"
 # ------------------------------
 #
 override_whitelisted_methods = {
-    "frappe.desk.form.utils.add_comment": "comment_enhancer.overrides.whitelist.comment.add_comment_override"
+    "frappe.desk.form.utils.add_comment": "comment_enhancer.overrides.whitelist.comment.add_comment_override",
+    "frappe.desk.form.utils.update_comment": "comment_enhancer.overrides.whitelist.comment.update_comment_override",
 }
 #
 # each overriding function accepts a `data` argument;

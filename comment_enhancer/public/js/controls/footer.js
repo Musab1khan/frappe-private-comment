@@ -11,7 +11,6 @@ frappe.ui.form.Footer = class extends frappe.ui.form.Footer {
                 fieldname: "comment",
             },
             on_submit: (comment, visible_to_mentioned_users) => {
-                console.log(visible_to_mentioned_users);
                 if (strip_html(comment).trim() != "" || comment.includes("img")) {
                     this.frm.comment_box.disable();
                     frappe
