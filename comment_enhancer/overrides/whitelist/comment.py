@@ -85,7 +85,7 @@ def get_comment_visibility(name: str):
 
     doc = frappe.get_doc("Comment", name)
 
-    if frappe.session.user != doc.owner:
+    if frappe.session.user not in ["Administrator", doc.owner]:
         return None
 
     return {"custom_visibility": doc.custom_visibility}

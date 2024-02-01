@@ -1,6 +1,4 @@
-const max_try_for_data_fetch = 10;
-const interval = 500;
-let current_count = 0;
+let time_current_count = 0;
 
 /**Enable the HTML Editor field preview mode by default using the provided function */
 const time_line_interval_loop = setInterval(() => {
@@ -11,12 +9,12 @@ const time_line_interval_loop = setInterval(() => {
         clearInterval(time_line_interval_loop);
     }
 
-    if (current_count >= max_try_for_data_fetch) {
+    if (time_current_count >= 10) {
         clearInterval(time_line_interval_loop);
     }
 
-    current_count++;
-}, interval);
+    time_current_count++;
+}, 500);
 
 function update_comments_timeline() {
     let html_time_line_items = document.querySelectorAll(".timeline-items .timeline-item");
@@ -42,6 +40,9 @@ function update_time_line(time_line_item) {
         },
         callback: (res) => {
             if (res?.message?.custom_visibility) {
+                if (time_line_item.querySelector(".visibility-info")) {
+                    time_line_item.querySelector(".visibility-info").remove();
+                }
                 time_line_item.querySelector(".frappe-timestamp").innerHTML +=
                     ` . <span class="visibility-info">${res.message.custom_visibility}</span>`;
             }
@@ -51,8 +52,17 @@ function update_time_line(time_line_item) {
     time_line_item.querySelector(".custom-actions button").addEventListener("click", (button) => {
         button_override(time_line_item, button);
     });
+
+    time_line_item
+        .querySelector(".custom-actions")
+        .lastChild.addEventListener("click", (button) => {
+            time_line_item.querySelector(".timeline-comment").remove();
+            window.location.reload();
+            // setTimeout(() => {
+            //     update_comments_timeline();
+            // });
+        });
 }
-let tem = null;
 function button_override(time_line_item, button) {
     if (time_line_item.querySelector(".custom-actions").classList.contains("save-open")) {
         handle_save(time_line_item, button);
@@ -66,27 +76,33 @@ function handle_save(time_line_item, button) {
         method: "frappe.desk.form.utils.update_comment",
         args: {
             name: time_line_item.dataset.name,
-            content: time_line_item.querySelector(".comment-edit-box .ql-editor").outerHTML,
+            content: time_line_item.querySelector(".comment-edit-box .ql-editor").innerHTML,
             custom_visibility: time_line_item.querySelector("#visibility").value,
         },
         callback: (r) => {
             time_line_item.querySelector(".timeline-comment").remove();
             time_line_item.querySelector(".custom-actions").classList.remove("save-open");
-            // update_comments_timeline();
+            // Need to find other way
             window.location.reload();
+            // setTimeout(() => {
+            //     update_comments_timeline();
+            // });
         },
     });
 }
 
 function handle_edit(time_line_item, button) {
-    tem = time_line_item;
-    time_line_item.querySelector(".comment-edit-box").innerHTML += get_input_html();
+    console.log("Edit kar rha");
+    time_line_item.querySelector(".timeline-message-box").append(get_input_html());
+    time_line_item.querySelector("#visibility").value =
+        time_line_item.querySelector(".visibility-info").innerText;
     time_line_item.querySelector(".custom-actions").classList.add("save-open");
 }
 
 function get_input_html() {
-    return `
-    <div class="checkbox timeline-comment form-inline form-group">
+    const div = document.createElement("div");
+    div.className = "checkbox timeline-comment form-inline form-group";
+    div.innerHTML = `
         <div class="comment-select-group">
             <label for="status" class="control-label text-muted small">Comment visibility:</label>
             <div class="select-input form-control">
@@ -105,7 +121,7 @@ function get_input_html() {
                 </div>
             </div>
         </div>
-    </div>
 
     `;
+    return div;
 }
