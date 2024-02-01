@@ -92,7 +92,6 @@ function handle_save(time_line_item, button) {
 }
 
 function handle_edit(time_line_item, button) {
-    console.log("Edit kar rha");
     time_line_item.querySelector(".timeline-message-box").append(get_input_html());
     time_line_item.querySelector("#visibility").value =
         time_line_item.querySelector(".visibility-info").innerText;
