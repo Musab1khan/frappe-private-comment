@@ -18,7 +18,7 @@ def add_comment_override(
     content: str,
     comment_email: str,
     comment_by: str,
-    custom_visible_to_mentioned_users: bool = False,
+    custom_visibility: str = "Visible to all",
 ) -> "Comment":
     """Allow logged user with permission to read document to add a comment"""
     reference_doc = frappe.get_doc(reference_doctype, reference_name)
@@ -35,7 +35,7 @@ def add_comment_override(
             "content": extract_images_from_html(
                 reference_doc, content, is_private=True
             ),
-            "custom_visible_to_mentioned_users": custom_visible_to_mentioned_users,
+            "custom_visibility": custom_visibility,
             "custom_mentions": get_mention_user(content),
         }
     )

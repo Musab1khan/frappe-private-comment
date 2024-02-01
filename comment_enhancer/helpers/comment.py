@@ -33,7 +33,7 @@ def add_comments_in_timeline(doc, docinfo):
             "content",
             "owner",
             "comment_type",
-            "custom_visible_to_mentioned_users",
+            "custom_visibility",
             "custom_mentions.user",
         ],
         filters={"reference_doctype": doc.doctype, "reference_name": doc.name},
@@ -43,13 +43,18 @@ def add_comments_in_timeline(doc, docinfo):
 
     if frappe.session.user != "Administrator":
         for comment in comments:
-            if not comment.custom_visible_to_mentioned_users:
-                filtered_comments.append(comment)
-            else:
+            if comment.custom_visibility == "Visible to only me":
+                if comment.owner == frappe.session.user:
+                    filtered_comments.append(comment)
+
+            elif comment.custom_visibility == "Visible to mentioned users":
                 if comment.owner == frappe.session.user or (
                     comment.user is not None and frappe.session.user == comment.user
                 ):
                     filtered_comments.append(comment)
+
+            else:
+                filtered_comments.append(comment)
     else:
         filtered_comments = comments
 

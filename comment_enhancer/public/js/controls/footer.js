@@ -10,7 +10,7 @@ frappe.ui.form.Footer = class extends frappe.ui.form.Footer {
                 fieldtype: "Comment",
                 fieldname: "comment",
             },
-            on_submit: (comment, visible_to_mentioned_users) => {
+            on_submit: (comment, custom_visibility) => {
                 if (strip_html(comment).trim() != "" || comment.includes("img")) {
                     this.frm.comment_box.disable();
                     frappe
@@ -20,7 +20,7 @@ frappe.ui.form.Footer = class extends frappe.ui.form.Footer {
                             content: comment,
                             comment_email: frappe.session.user,
                             comment_by: frappe.session.user_fullname,
-                            custom_visible_to_mentioned_users: visible_to_mentioned_users,
+                            custom_visibility: custom_visibility,
                         })
                         .then((comment) => {
                             let comment_item =

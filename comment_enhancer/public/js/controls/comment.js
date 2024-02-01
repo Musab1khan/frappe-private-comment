@@ -12,9 +12,25 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
                     <div class="frappe-control col"></div>
                 </div>
                 <div class="checkbox hidden form-inline form-group" style="margin-left:48px;padding-top:0.5rem;">
-                        <input type="checkbox" autocomplete="off" class="input-with-feedback" data-fieldtype="Check" data-fieldname="visible_to_mentioned_users">
-                        <span class="label-area">Visible to mentioned users</span>
+                    <div class="comment-select-group">
+                        <label for="status" class="control-label text-muted small">Comment visibility:</label>
+                        <div class="select-input form-control">
+                            <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
+                                <option value="Visible to all" selected="selected">
+                                    Visible to all</option>
+                                <option value="Visible to only me">
+                                    Visible to only me</option>
+                                <option value="Visible to mentioned users">
+                                    Visible to mentioned users</option>
+                            </select>
+                            <div class="select-icon ">
+                                <svg class="icon  icon-sm" style="">
+                                    <use class="" href="#icon-select"></use>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
+                </div>
                 <button class="btn hidden btn-comment btn-xs" style="margin-left:48px; margin-top:0px;">
                     ${__("Comments")}
                 </button>
@@ -35,12 +51,11 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
 
         this.mention_wrapper = this.comment_wrapper.find(".checkbox");
 
-        this.visible_to_mentioned_users = this.comment_wrapper.find('input[type="checkbox"]');
+        this.comment_visibility = this.comment_wrapper.find("#visibility");
     }
 
     submit() {
-        const checked = this.visible_to_mentioned_users.prop("checked");
-        this.on_submit && this.on_submit(this.get_value(), checked);
+        this.on_submit && this.on_submit(this.get_value(), this.comment_visibility.prop("value"));
     }
 
     update_state() {
