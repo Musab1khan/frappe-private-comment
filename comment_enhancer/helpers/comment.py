@@ -27,15 +27,7 @@ def add_comments_in_timeline(doc, docinfo):
 
     comments = frappe.get_all(
         "Comment",
-        fields=[
-            "name",
-            "creation",
-            "content",
-            "owner",
-            "comment_type",
-            "custom_visibility",
-            "custom_mentions.user",
-        ],
+        fields="*",
         filters={"reference_doctype": doc.doctype, "reference_name": doc.name},
     )
 
@@ -48,9 +40,16 @@ def add_comments_in_timeline(doc, docinfo):
                     filtered_comments.append(comment)
 
             elif comment.custom_visibility == "Visible to mentioned users":
-                if comment.owner == frappe.session.user or (
-                    comment.user is not None and frappe.session.user == comment.user
-                ):
+                member = frappe.db.get_all(
+                    "User Group Member",
+                    filters={
+                        "user": frappe.session.user,
+                        "parent": comment.name,
+                        "parenttype": "Comment",
+                    },
+                )
+
+                if comment.owner == frappe.session.user or (len(member) > 0):
                     filtered_comments.append(comment)
 
             else:

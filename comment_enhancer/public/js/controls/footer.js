@@ -33,6 +33,7 @@ frappe.ui.form.Footer = class extends frappe.ui.form.Footer {
                         })
                         .finally(() => {
                             this.frm.comment_box.enable();
+                            update_comments_timeline();
                         });
                     this.refresh();
                 }

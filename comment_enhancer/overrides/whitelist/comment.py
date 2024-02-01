@@ -52,8 +52,12 @@ def add_comment_override(
 
 
 @frappe.whitelist()
-def update_comment_override(name, content):
+def update_comment_override(name: str, content: str, custom_visibility: str = None):
     """allow only owner to update comment"""
+
+    if not custom_visibility:
+        return None
+
     doc = frappe.get_doc("Comment", name)
 
     if frappe.session.user not in ["Administrator", doc.owner]:
@@ -70,5 +74,18 @@ def update_comment_override(name, content):
         doc.content = content
 
     doc.set("custom_mentions", get_mention_user(doc.content))
+    doc.set("custom_visibility", custom_visibility)
 
     doc.save(ignore_permissions=True)
+
+
+@frappe.whitelist()
+def get_comment_visibility(name: str):
+    """allow only owner to update comment"""
+
+    doc = frappe.get_doc("Comment", name)
+
+    if frappe.session.user not in ["Administrator", doc.owner]:
+        return None
+
+    return {"custom_visibility": doc.custom_visibility}
