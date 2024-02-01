@@ -1,26 +1,37 @@
-let time_current_count = 0;
-
 /**Enable the HTML Editor field preview mode by default using the provided function */
 const time_line_interval_loop = setInterval(() => {
-    let html_time_line_item = document.querySelectorAll(".timeline-items .timeline-item");
+    let html_time_line_item = document.querySelectorAll(
+        ".new-timeline > .timeline-items .timeline-item",
+    );
 
     if (html_time_line_item.length != 0) {
         update_comments_timeline();
         clearInterval(time_line_interval_loop);
     }
-
-    if (time_current_count >= 10) {
-        clearInterval(time_line_interval_loop);
-    }
-
-    time_current_count++;
-}, 500);
+}, 1000);
 
 function update_comments_timeline() {
-    let html_time_line_items = document.querySelectorAll(".timeline-items .timeline-item");
+    let html_time_line_items = document.querySelectorAll(
+        ".new-timeline > .timeline-items .timeline-item",
+    );
 
     for (let index = 0; index < html_time_line_items.length; index++) {
+        if (html_time_line_items[index].querySelector(".visibility-info")) {
+            return;
+        }
         update_time_line(html_time_line_items[index]);
+    }
+}
+
+function button_handle(event) {
+    let html_time_line_items = document.querySelectorAll(
+        ".new-timeline > .timeline-items .timeline-item",
+    );
+
+    for (let index = 0; index < html_time_line_items.length; index++) {
+        if (html_time_line_items[index].dataset.name == event.target.dataset.name) {
+            return button_override(html_time_line_items[index], event.target);
+        }
     }
 }
 
@@ -39,30 +50,40 @@ function update_time_line(time_line_item) {
             name: time_line_item.dataset.name,
         },
         callback: (res) => {
+            if (time_line_item.querySelector(".visibility-info")) {
+                time_line_item.querySelector(".visibility-info").remove();
+            }
             if (res?.message?.custom_visibility) {
-                if (time_line_item.querySelector(".visibility-info")) {
-                    time_line_item.querySelector(".visibility-info").remove();
-                }
-                time_line_item.querySelector(".frappe-timestamp").innerHTML +=
+                time_line_item.querySelector(
+                    ".timeline-message-box > span > span > span",
+                ).innerHTML +=
                     ` . <span class="visibility-info">${res.message.custom_visibility}</span>`;
+            } else {
+                time_line_item.querySelector(
+                    ".timeline-message-box > span > span > span",
+                ).innerHTML += ` <span class="visibility-info"></span>`;
             }
         },
     });
 
-    time_line_item.querySelector(".custom-actions button").addEventListener("click", (button) => {
-        button_override(time_line_item, button);
-    });
+    let button = time_line_item.querySelector(".custom-actions button");
+
+    button.dataset.name = time_line_item.dataset.name;
+
+    // Remove the event listener
+    button.removeEventListener("click", button_handle, true);
+
+    // Add the event listener
+    button.addEventListener("click", button_handle, true);
 
     time_line_item
         .querySelector(".custom-actions")
         .lastChild.addEventListener("click", (button) => {
             time_line_item.querySelector(".timeline-comment").remove();
-            window.location.reload();
-            // setTimeout(() => {
-            //     update_comments_timeline();
-            // });
+            time_line_item.querySelector(".custom-actions").classList.remove("save-open");
         });
 }
+
 function button_override(time_line_item, button) {
     if (time_line_item.querySelector(".custom-actions").classList.contains("save-open")) {
         handle_save(time_line_item, button);
@@ -82,11 +103,7 @@ function handle_save(time_line_item, button) {
         callback: (r) => {
             time_line_item.querySelector(".timeline-comment").remove();
             time_line_item.querySelector(".custom-actions").classList.remove("save-open");
-            // Need to find other way
-            window.location.reload();
-            // setTimeout(() => {
-            //     update_comments_timeline();
-            // });
+            update_time_line(time_line_item);
         },
     });
 }
