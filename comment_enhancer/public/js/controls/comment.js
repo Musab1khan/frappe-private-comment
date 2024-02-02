@@ -11,29 +11,33 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
                 ${frappe.avatar(frappe.session.user, "avatar-medium")}
                     <div class="frappe-control col"></div>
                 </div>
-                <div class="checkbox hidden form-inline form-group" style="margin-left:48px;padding-top:0.5rem;">
-                    <div class="comment-select-group">
-                        <label for="status" class="control-label text-muted small">Comment visibility:</label>
-                        <div class="select-input form-control">
-                            <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
-                                <option value="Visible to all" selected="selected">
-                                    Visible to all</option>
-                                <option value="Visible to only me">
-                                    Visible to only me</option>
-                                <option value="Visible to mentioned users">
-                                    Visible to mentioned users</option>
-                            </select>
-                            <div class="select-icon ">
-                                <svg class="icon  icon-sm" style="">
-                                    <use class="" href="#icon-select"></use>
-                                </svg>
+                <div class="comment-btn-container">
+                    <div class="checkbox comment-visibility-input form-inline form-group">
+                        <div class="comment-select-group">
+                            <label for="status" class="visibility-label control-label text-muted small">
+                                ${get_comment_visibility_icons("Visible to everyone")}
+                            </label>
+                            <div class="select-input form-control">
+                                <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
+                                    <option value="Visible to everyone" selected="selected">
+                                        Visible to everyone</option>
+                                    <option value="Visible to only you">
+                                        Visible to only you</option>
+                                    <option value="Visible to mentioned">
+                                        Visible to mentioned</option>
+                                </select>
+                                <div class="select-icon ">
+                                    <svg class="icon  icon-sm" style="">
+                                        <use class="" href="#icon-select"></use>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <button class="btn comment-submit-btn btn-comment btn-xs btn-primary disabled">
+                        ${__("Add Comment")}
+                    </button>
                 </div>
-                <button class="btn hidden btn-comment btn-xs" style="margin-left:48px; margin-top:0px;">
-                    ${__("Comments")}
-                </button>
             </div>
         `)
             : $('<div class="frappe-control"></div>');
@@ -52,6 +56,12 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
         this.mention_wrapper = this.comment_wrapper.find(".checkbox");
 
         this.comment_visibility = this.comment_wrapper.find("#visibility");
+
+        this.comment_visibility.on("change", () => {
+            document.querySelector(".visibility-label").innerHTML = get_comment_visibility_icons(
+                this.comment_visibility.prop("value"),
+            );
+        });
     }
 
     submit() {
@@ -61,11 +71,9 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
     update_state() {
         const value = this.get_value();
         if (strip_html(value).trim() != "" || value.includes("img")) {
-            this.button.removeClass("hidden").addClass("btn-primary");
-            this.mention_wrapper.removeClass("hidden");
+            this.button.removeClass("disabled");
         } else {
-            this.mention_wrapper.addClass("hidden");
-            this.button.addClass("hidden").removeClass("btn-primary");
+            this.button.addClass("disabled");
         }
     }
 };

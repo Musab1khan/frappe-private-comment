@@ -18,7 +18,7 @@ def add_comment_override(
     content: str,
     comment_email: str,
     comment_by: str,
-    custom_visibility: str = "Visible to all",
+    custom_visibility: str = "Visible to everyone",
 ) -> "Comment":
     """Allow logged user with permission to read document to add a comment"""
     reference_doc = frappe.get_doc(reference_doctype, reference_name)
@@ -54,6 +54,8 @@ def add_comment_override(
 @frappe.whitelist()
 def update_comment_override(name: str, content: str, custom_visibility: str = None):
     """allow only owner to update comment"""
+
+    # We are overriding the default Frappe update call because there's no way to store this information with a JavaScript override.
 
     if not custom_visibility:
         return None

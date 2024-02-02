@@ -35,11 +35,11 @@ def add_comments_in_timeline(doc, docinfo):
 
     if frappe.session.user != "Administrator":
         for comment in comments:
-            if comment.custom_visibility == "Visible to only me":
+            if comment.custom_visibility == "Visible to only you":
                 if comment.owner == frappe.session.user:
                     filtered_comments.append(comment)
 
-            elif comment.custom_visibility == "Visible to mentioned users":
+            elif comment.custom_visibility == "Visible to mentioned":
                 member = frappe.db.get_all(
                     "User Group Member",
                     filters={

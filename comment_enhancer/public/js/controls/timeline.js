@@ -6,9 +6,43 @@ const time_line_interval_loop = setInterval(() => {
 
     if (html_time_line_item.length != 0) {
         update_comments_timeline();
-        clearInterval(time_line_interval_loop);
     }
-}, 1000);
+}, 500);
+
+function get_comment_visibility_icons(visibility) {
+    if (visibility == "Visible to everyone") {
+        return `<svg class="icon icon-md visibility-to-all">
+        <use href="#icon-unlock"></use>
+    </svg>`;
+    }
+    return `<svg class="icon icon-md">
+        <use href="#icon-lock"></use>
+    </svg>`;
+}
+
+function update_the_comment_visibility(visibility) {
+    if (visibility) {
+        return `
+            <span class="visibility-container" title="${visibility}">
+                <span class="visibility-info" data-visibility="${visibility}">
+                    ${get_comment_visibility_icons(visibility)}
+                </span>
+            </span>`;
+    }
+
+    return `<span class="visibility-container">
+                <span class="visibility-info"></span>
+            </span>`;
+}
+
+function add_visibility_icons(time_line_item, visibility) {
+    if (time_line_item.querySelector(".visibility-container")) {
+        time_line_item.querySelector(".visibility-container").remove();
+    }
+
+    time_line_item.querySelector(".timeline-message-box > span > span > span").innerHTML +=
+        update_the_comment_visibility(visibility);
+}
 
 function update_comments_timeline() {
     let html_time_line_items = document.querySelectorAll(
@@ -50,19 +84,7 @@ function update_time_line(time_line_item) {
             name: time_line_item.dataset.name,
         },
         callback: (res) => {
-            if (time_line_item.querySelector(".visibility-info")) {
-                time_line_item.querySelector(".visibility-info").remove();
-            }
-            if (res?.message?.custom_visibility) {
-                time_line_item.querySelector(
-                    ".timeline-message-box > span > span > span",
-                ).innerHTML +=
-                    ` . <span class="visibility-info">${res.message.custom_visibility}</span>`;
-            } else {
-                time_line_item.querySelector(
-                    ".timeline-message-box > span > span > span",
-                ).innerHTML += ` <span class="visibility-info"></span>`;
-            }
+            add_visibility_icons(time_line_item, res?.message?.custom_visibility);
         },
     });
 
@@ -76,12 +98,10 @@ function update_time_line(time_line_item) {
     // Add the event listener
     button.addEventListener("click", button_handle, true);
 
-    time_line_item
-        .querySelector(".custom-actions")
-        .lastChild.addEventListener("click", (button) => {
-            time_line_item.querySelector(".timeline-comment").remove();
-            time_line_item.querySelector(".custom-actions").classList.remove("save-open");
-        });
+    time_line_item.querySelector(".custom-actions").lastChild.addEventListener("click", () => {
+        time_line_item.querySelector(".timeline-comment").remove();
+        time_line_item.querySelector(".custom-actions").classList.remove("save-open");
+    });
 }
 
 function button_override(time_line_item, button) {
@@ -100,7 +120,7 @@ function handle_save(time_line_item, button) {
             content: time_line_item.querySelector(".comment-edit-box .ql-editor").innerHTML,
             custom_visibility: time_line_item.querySelector("#visibility").value,
         },
-        callback: (r) => {
+        callback: () => {
             time_line_item.querySelector(".timeline-comment").remove();
             time_line_item.querySelector(".custom-actions").classList.remove("save-open");
             update_time_line(time_line_item);
@@ -109,13 +129,13 @@ function handle_save(time_line_item, button) {
 }
 
 function handle_edit(time_line_item, button) {
-    time_line_item.querySelector(".timeline-message-box").append(get_input_html());
+    time_line_item.querySelector(".timeline-message-box").append(get_input_html(time_line_item));
     time_line_item.querySelector("#visibility").value =
-        time_line_item.querySelector(".visibility-info").innerText;
+        time_line_item.querySelector(".visibility-info").dataset.visibility;
     time_line_item.querySelector(".custom-actions").classList.add("save-open");
 }
 
-function get_input_html() {
+function get_input_html(time_line_item) {
     const div = document.createElement("div");
     div.className = "checkbox timeline-comment form-inline form-group";
     div.innerHTML = `
@@ -123,12 +143,12 @@ function get_input_html() {
             <label for="status" class="control-label text-muted small">Comment visibility:</label>
             <div class="select-input form-control">
                 <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
-                    <option value="Visible to all" selected="selected">
-                        Visible to all</option>
-                    <option value="Visible to only me">
-                        Visible to only me</option>
-                    <option value="Visible to mentioned users">
-                        Visible to mentioned users</option>
+                    <option value="Visible to everyone" selected="selected">
+                        Visible to everyone</option>
+                    <option value="Visible to only you">
+                        Visible to only you</option>
+                    <option value="Visible to mentioned">
+                        Visible to mentioned</option>
                 </select>
                 <div class="select-icon ">
                     <svg class="icon  icon-sm" style="">
@@ -139,5 +159,10 @@ function get_input_html() {
         </div>
 
     `;
+
+    div.querySelector("#visibility").addEventListener("change", (event) => {
+        add_visibility_icons(time_line_item, event.target.value);
+    });
+
     return div;
 }
