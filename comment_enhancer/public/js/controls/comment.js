@@ -21,10 +21,10 @@ frappe.ui.form.ControlComment = class extends frappe.ui.form.ControlComment {
                                 <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
                                     <option value="Visible to everyone" selected="selected">
                                         Visible to everyone</option>
-                                    <option value="Visible to only you">
-                                        Visible to only you</option>
                                     <option value="Visible to mentioned">
                                         Visible to mentioned</option>
+                                    <option value="Visible to only you">
+                                        Visible to only you</option>
                                 </select>
                                 <div class="select-icon ">
                                     <svg class="icon  icon-sm" style="">
