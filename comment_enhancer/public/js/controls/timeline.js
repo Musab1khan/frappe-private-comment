@@ -11,12 +11,18 @@ const time_line_interval_loop = setInterval(() => {
 
 function get_comment_visibility_icons(visibility) {
     if (visibility == "Visible to everyone") {
-        return `<svg class="icon icon-md visibility-to-all">
-        <use href="#icon-unlock"></use>
+        return `<i class="fa fa-globe visible-to-all"></i>
+    `;
+    }
+
+    if (visibility == "Visible to mentioned") {
+        return `<svg class="icon icon-md visible-to-mentioned">
+        <use href="#icon-share"></use>
     </svg>`;
     }
-    return `<svg class="icon icon-md">
-        <use href="#icon-lock"></use>
+
+    return `<svg class="icon icon-md visible-to-you">
+        <use href="#icon-hide"></use>
     </svg>`;
 }
 
@@ -145,10 +151,10 @@ function get_input_html(time_line_item) {
                 <select name="visibility" id="visibility" data-label="visibility" data-fieldtype="Select">
                     <option value="Visible to everyone" selected="selected">
                         Visible to everyone</option>
-                    <option value="Visible to only you">
-                        Visible to only you</option>
                     <option value="Visible to mentioned">
                         Visible to mentioned</option>
+                    <option value="Visible to only you">
+                        Visible to only you</option>
                 </select>
                 <div class="select-icon ">
                     <svg class="icon  icon-sm" style="">
@@ -157,7 +163,6 @@ function get_input_html(time_line_item) {
                 </div>
             </div>
         </div>
-
     `;
 
     div.querySelector("#visibility").addEventListener("change", (event) => {

@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.5rem;
 }
 .comment-select-group {
     width: 100%;
@@ -25,21 +25,21 @@
     padding-left: 4.5%;
 }
 
-.comment-select-group .visibility-label .visibility-to-all,
-.visibility-info .visibility-to-all {
+.comment-select-group .visibility-label .visible-to-all{
     transform: scale(1.25);
-    padding-top: 2px;
-    padding-left: 2px;
+    margin-left: 0.30rem;
+    margin-right: 0.25rem;
 }
 
-.visibility-info svg {
-    transform: scale(0.85);
+.visibility-info i{
+    transform: scale(1.25);
+    margin-left: 0.2rem;
+}
+
+.visibility-info svg, .visibility-info i {
     cursor: pointer;
     margin-bottom: 4px;
-}
-
-.visibility-info .visibility-to-all {
-    transform: scale(1) !important;
+    margin-right: 0.4rem;
 }
 
 .comment-visibility-input {
