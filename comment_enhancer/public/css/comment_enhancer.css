@@ -1,0 +1,83 @@
+.comment-select-group,
+.comment-select-group .select-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+.comment-select-group {
+    width: 100%;
+}
+
+.comment-select-group .select-input {
+    gap: 0;
+    position: relative;
+    background-color: var(--control-bg);
+    flex: 0 0 16rem;
+    padding: 0;
+}
+
+.comment-btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    align-items: center;
+    padding-left: 4.5%;
+}
+
+.comment-select-group .visibility-label svg {
+    transform: scale(0.95);
+}
+
+.comment-select-group .visibility-label .visible-to-all {
+    transform: scale(1.25);
+    margin-left: 4.5px;
+    margin-right: 4.2px;
+}
+
+.visibility-info i {
+    transform: scale(1.25);
+    margin-left: 0.2rem;
+}
+
+.visibility-info svg,
+.visibility-info i {
+    cursor: pointer;
+    margin-bottom: 4px;
+    margin-right: 0.4rem;
+}
+
+.comment-visibility-input {
+    margin-bottom: 0;
+}
+
+.comment-btn-container > .form-inline {
+    flex: 0 0 50%;
+}
+.comment-submit-btn {
+    margin: 0 !important;
+}
+#visibility {
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none !important;
+    width: 100%;
+    outline: none;
+    padding: 0 0.5rem;
+}
+.visibility-info {
+    margin-left: 0.5rem;
+}
+
+.timeline-comment {
+    background: white;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0;
+}
+
+.comment-select-group .select-icon {
+    position: absolute;
+    right: 0.5rem;
+}

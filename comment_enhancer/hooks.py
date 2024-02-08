@@ -10,8 +10,8 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/comment_enhancer/css/comment_enhancer.css"
-# app_include_js = "/assets/comment_enhancer/js/comment_enhancer.js"
+app_include_css = "/assets/comment_enhancer/css/comment_enhancer.css"
+app_include_js = "/assets/comment_enhancer/js/comment_enhancer.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/comment_enhancer/css/comment_enhancer.css"
@@ -159,9 +159,10 @@ app_license = "mit"
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "comment_enhancer.event.get_events"
-# }
+override_whitelisted_methods = {
+    "frappe.desk.form.utils.add_comment": "comment_enhancer.overrides.whitelist.comment.add_comment_override",
+    "frappe.desk.form.utils.update_comment": "comment_enhancer.overrides.whitelist.comment.update_comment_override",
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
@@ -226,4 +227,3 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
