@@ -25,18 +25,23 @@
     padding-left: 4.5%;
 }
 
-.comment-select-group .visibility-label .visible-to-all{
-    transform: scale(1.25);
-    margin-left: 0.30rem;
-    margin-right: 0.25rem;
+.comment-select-group .visibility-label svg {
+    transform: scale(0.95);
 }
 
-.visibility-info i{
+.comment-select-group .visibility-label .visible-to-all {
+    transform: scale(1.25);
+    margin-left: 4.5px;
+    margin-right: 4.2px;
+}
+
+.visibility-info i {
     transform: scale(1.25);
     margin-left: 0.2rem;
 }
 
-.visibility-info svg, .visibility-info i {
+.visibility-info svg,
+.visibility-info i {
     cursor: pointer;
     margin-bottom: 4px;
     margin-right: 0.4rem;
