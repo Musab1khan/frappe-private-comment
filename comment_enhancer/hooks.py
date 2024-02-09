@@ -167,9 +167,9 @@ override_whitelisted_methods = {
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "comment_enhancer.task.get_dashboard_data"
-# }
+override_doctype_dashboards = {
+    "NotificationLog": "comment_enhancer.overrides.notification_log_override.CareersOverrideNotificationLog"
+}
 
 # exempt linked doctypes from being automatically cancelled
 #
