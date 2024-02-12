@@ -114,9 +114,9 @@ app_include_js = "/assets/comment_enhancer/js/comment_enhancer.js"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Notification Log": "comment_enhancer.overrides.notification_log_override.NotificationLogOverride"
+}
 
 # Document Events
 # ---------------
@@ -167,9 +167,8 @@ override_whitelisted_methods = {
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
-override_doctype_dashboards = {
-    "NotificationLog": "comment_enhancer.overrides.notification_log_override.CareersOverrideNotificationLog"
-}
+# override_doctype_dashboards = {
+# }
 
 # exempt linked doctypes from being automatically cancelled
 #

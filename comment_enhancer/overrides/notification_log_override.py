@@ -1,8 +1,9 @@
 import frappe
 from frappe.desk.doctype.notification_log.notification_log import NotificationLog
+from frappe.utils.data import get_url_to_form
 
 
-class CareersOverrideNotificationLog(NotificationLog):
+class NotificationLogOverride(NotificationLog):
     def after_insert(self):
         if self.type == "Mention":
             self.update_comment_link()
@@ -18,10 +19,10 @@ class CareersOverrideNotificationLog(NotificationLog):
             filters={
                 "reference_doctype": self.document_type,
                 "reference_name": self.document_name,
-                "reference_owner": self.for_user,
             },
             fields=["name", "content"],
             order_by="creation desc",
+            limit_page_length=5,
         )
 
         comment_name = None
@@ -30,7 +31,10 @@ class CareersOverrideNotificationLog(NotificationLog):
             if comment.content in self.email_content:
                 comment_name = comment.name
                 break
-
+            
         if comment_name:
-            self.link = self.link + f"#comment-{comment_name}"
+            self.link = (
+                get_url_to_form(self.document_type, self.document_name)
+                + f"#comment-{comment_name}"
+            )
             self.save()
