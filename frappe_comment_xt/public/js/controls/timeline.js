@@ -85,7 +85,7 @@ function update_time_line(time_line_item) {
     }
 
     frappe.call({
-        method: "comment_enhancer.overrides.whitelist.comment.get_comment_visibility",
+        method: "frappe_comment_xt.overrides.whitelist.comment.get_comment_visibility",
         args: {
             name: time_line_item.dataset.name,
         },
