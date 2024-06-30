@@ -1,6 +1,6 @@
 # Frappe-Comment-xt
 
-Allows controlling comment visibility for tagged user and user-groups. Helpful to add private comments in a discussion on any doc’s single view.
+Frappe app that allows controlling comment visibility for tagged user and user-groups. Helpful to add private comments in a discussion on any doc’s single view.
 
 Select visibility for comments from:
 1. Public - Visible to everyone.
