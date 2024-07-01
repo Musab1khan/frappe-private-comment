@@ -2,6 +2,8 @@
 
 Frappe app that allows controlling comment visibility for tagged user and user-groups. Helpful to add private comments in a discussion on any doc’s single view.
 
+![Frappe-Comment-xt featured image](https://github.com/rtCamp/comment-enhancer/assets/26240780/0de97ea3-3e96-4ea9-8184-19b92aae47a5)
+
 Select visibility for comments from:
 1. Public - Visible to everyone.
 2. Mentioned - Visible to mentioned users and user-groups.
