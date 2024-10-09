@@ -8,7 +8,7 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
-        files: "frappe_comment_xt.*"
+        files: "frappe_private_comment.*"
         exclude: ".*json$|.*txt$|.*csv|.*md|.*svg"
       - id: check-yaml
       - id: check-merge-conflict
@@ -37,13 +37,13 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                frappe_comment_xt/public/dist/.*|
+                frappe_private_comment/public/dist/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                frappe_comment_xt/www/website_script.js|
-                frappe_comment_xt/templates/includes/.*|
-                frappe_comment_xt/public/js/lib/.*|
-                frappe_comment_xt/website/doctype/website_theme/website_theme_template.scss
+                frappe_private_comment/www/website_script.js|
+                frappe_private_comment/templates/includes/.*|
+                frappe_private_comment/public/js/lib/.*|
+                frappe_private_comment/website/doctype/website_theme/website_theme_template.scss
             )$
 
 
@@ -56,13 +56,13 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                frappe_comment_xt/public/dist/.*|
+                frappe_private_comment/public/dist/.*|
                 cypress/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                frappe_comment_xt/www/website_script.js|
-                frappe_comment_xt/templates/includes/.*|
-                frappe_comment_xt/public/js/lib/.*
+                frappe_private_comment/www/website_script.js|
+                frappe_private_comment/templates/includes/.*|
+                frappe_private_comment/public/js/lib/.*
             )$
 
   - repo: https://github.com/PyCQA/isort

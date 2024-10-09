@@ -31,7 +31,7 @@ class NotificationLogOverride(NotificationLog):
             if comment.content in self.email_content:
                 comment_name = comment.name
                 break
-            
+
         if comment_name:
             self.link = (
                 get_url_to_form(self.document_type, self.document_name)

@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 import frappe
 from frappe.core.doctype.file.utils import extract_images_from_html
 from frappe.desk.form.document_follow import follow_document
-from frappe_comment_xt.helpers.comment import get_mention_user
+
+from frappe_private_comment.helpers.comment import get_mention_user
 
 if TYPE_CHECKING:
     from frappe.core.doctype.comment.comment import Comment

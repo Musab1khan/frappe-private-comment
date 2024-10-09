@@ -1,8 +1,8 @@
-# Frappe-Comment-xt
+# Frappe-Private-Comment
 
 Frappe app that allows controlling comment visibility for tagged user and user-groups. Helpful to add private comments in a discussion on any doc’s single view.
 
-![Frappe-Comment-xt featured image](https://github.com/rtCamp/comment-enhancer/assets/26240780/0de97ea3-3e96-4ea9-8184-19b92aae47a5)
+![Frappe-Private-Comment featured image](https://github.com/rtCamp/comment-enhancer/assets/26240780/0de97ea3-3e96-4ea9-8184-19b92aae47a5)
 
 Select visibility for comments from:
 1. Public - Visible to everyone.
@@ -14,13 +14,13 @@ Select visibility for comments from:
 1. Get the app
 
 ```bash
-bench get-app https://github.com/rtCamp/frappe-comment-xt.git
+bench get-app https://github.com/rtCamp/frappe-private-comment.git
 ```
 
 2. Install the app on your site
 
 ```bash
-bench --site [site-name] install-app frappe-comment-xt
+bench --site [site-name] install-app frappe-private-comment
 ```
 ## Planned Features
 
