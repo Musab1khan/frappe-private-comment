@@ -26,7 +26,10 @@ bench --site [site-name] install-app frappe-private-comment
 
 - Emoji reactions to comments
 
-#### License
+## Contribution Guide
 
-This project is licensed under the MIT License.
-s
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the [AGPLv3 License](./LICENSE).
