@@ -2,8 +2,9 @@ app_name = "frappe_private_comment"
 app_title = "Frappe Private Comment"
 app_publisher = "rtCamp"
 app_description = "Enhancing the default comments function in Frappe"
-app_email = "sys@rtcamp.com"
-app_license = "mit"
+app_email = "frappe@rtcamp.com"
+app_license = "GNU AFFERO GENERAL PUBLIC LICENSE (v3)"
+
 # required_apps = []
 
 # Includes in <head>
