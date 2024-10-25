@@ -1,7 +1,7 @@
 [project]
 name = "frappe_private_comment"
 authors = [
-    { name = "rtCamp", email = "sys@rtcamp.com"}
+    { name = "rtCamp", email = "frappe@rtcamp.com"}
 ]
 description = "Enhancing the default comments function in Frappe"
 requires-python = ">=3.10"
