@@ -1,4 +1,8 @@
-# Frappe-Private-Comment
+
+<div align="center">
+<img src="comment.png" height="128" alt="Logo">
+<h2>Frappe-Private-Comment</h2>
+</div>
 
 Frappe app that allows controlling comment visibility for tagged user and user-groups. Helpful to add private comments in a discussion on any doc’s single view.
 
